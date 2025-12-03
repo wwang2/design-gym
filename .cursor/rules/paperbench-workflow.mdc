@@ -1,0 +1,65 @@
+---
+description: PaperBench Evaluation Question Creation Workflow
+globs: **/*.ipynb, **/*.py, **/question_*/*, **/answer.txt, **/rubric.txt
+---
+
+# PaperBench Evaluation Workflow
+
+This project converts research papers into structured computational evaluation questions. Follow these guidelines when creating or modifying questions.
+
+## Project Structure
+
+Each question should follow this structure:
+```
+question_X/
+  - data_*.csv          # Clean, documented data files
+  - question_X.ipynb    # Analysis notebook
+  - answer.txt          # Ground-truth answer
+  - rubric.txt          # Scoring rubric
+```
+
+## Question Creation Guidelines
+
+### 1. Data Files
+- Name files clearly: `data_meta.csv`, `data_rnaseq.csv`, `data_metabolomics.csv`, etc.
+- Ensure data is clean, documented, and ready for analysis
+- Include necessary metadata files
+
+### 2. Jupyter Notebooks
+- Start with: biological question, hypothesis, library imports, data loading
+- Include: data preprocessing, analysis, visualization, results interpretation
+- Ensure reproducibility: notebooks must run from start to finish without errors
+- Add clear comments explaining complex code
+- Save intermediate processed data files when appropriate
+
+### 3. Answer Files (`answer.txt`)
+- Be direct: Start with the main finding that answers the question
+- Be comprehensive: Address all parts of multi-component questions
+- This serves as ground-truth for evaluating AI-generated responses
+
+### 4. Rubric Files (`rubric.txt`)
+- Create step-by-step criteria based on the actual analysis workflow
+- Include: data handling, preprocessing, methods, statistical validation, visualization, results, interpretation
+- Use three credit levels: full credit, partial credit, zero credit
+- Total approximately 100 points
+
+## Question Types
+
+Common computational question types:
+- Differential analysis (comparing groups)
+- Association with phenotypes (with/without covariates)
+- Clustering/separation (PCA/UMAP)
+- Pathway enrichment
+- Biomarker discovery/prediction
+
+## Best Practices
+
+- Questions must require actual computation (PCA, DE analysis, regression, clustering)
+- Make questions specific and reproducible
+- Ensure data files match the question requirements
+- Notebooks should generate clear visualizations with proper labels and legends
+- Save outputs in appropriate formats (CSV for tables, PNG/PDF for figures)
+
+## Reference
+
+See `context/paperbench_guide.md` for the complete guide on creating questions from papers.
