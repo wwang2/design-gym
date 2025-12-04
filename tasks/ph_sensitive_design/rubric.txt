@@ -2,7 +2,7 @@ Total Points: 100
 
 Notes: This rubric evaluates understanding and implementation of pH-sensitive binder design workflows from Ahn et al. 2025. The task covers two strategies: (A) Interface Destabilization using His-cation pairs, and (B) Monomer Destabilization using buried His H-bond networks.
 
-Criteria (13):
+Criteria (15):
 
 ---
 PART 0: CONCEPTUAL UNDERSTANDING (12 points)
@@ -46,25 +46,41 @@ PART 1: PROTEINMPNN HISTIDINE BIAS (23 points)
 
   Criterion 5: Global Bias Argument (Task 1.1)
     Description: Correctly writes ProteinMPNN bias argument
-    Max Points: 11
+    Max Points: 5
     Levels:
-      [A] (11 points): Correct format: --bias_AA "H:2.0" (or equivalent valid syntax)
-      [B] (5 points): Correct flag name but wrong format or value
+      [A] (5 points): Correct format: --bias_AA "H:2.0" (or equivalent valid syntax)
+      [B] (2 points): Correct flag name but wrong format or value
       [C] (0 points): Wrong flag or completely incorrect syntax
 
   Criterion 6: Position-Specific Bias Dictionary (Task 1.2)
     Description: Creates correct per-residue bias JSON structure
-    Max Points: 12
+    Max Points: 6
     Levels:
-      [A] (12 points): Correctly creates dictionary with: (1) chain+residue keys (e.g., "A10"), (2) all 20 amino acids, (3) His biased to 3.0, (4) others at 0.0
-      [B] (6 points): Correct structure but missing some amino acids or wrong bias values
+      [A] (6 points): Correctly creates dictionary with: (1) chain+residue keys (e.g., "A10"), (2) all 20 amino acids, (3) His biased to 3.0, (4) others at 0.0
+      [B] (3 points): Correct structure but missing some amino acids or wrong bias values
       [C] (0 points): Incorrect structure or does not implement function
+
+  Criterion 7: Interface Residue Selection (Task 1.3)
+    Description: Implements distance-based interface residue identification
+    Max Points: 6
+    Levels:
+      [A] (6 points): Correctly implements: (1) PDB parsing with BioPython, (2) NeighborSearch on target atoms, (3) distance cutoff check (8Å), (4) returns list of interface residue numbers
+      [B] (3 points): Partial implementation - parses structure but incomplete distance logic
+      [C] (0 points): Does not implement or fundamentally incorrect approach
+
+  Criterion 8: Complete Interface His-Bias Workflow (Task 1.4)
+    Description: Combines interface selection with His bias creation
+    Max Points: 6
+    Levels:
+      [A] (6 points): Correctly chains: (1) interface selection, (2) His bias dict creation for interface positions, (3) validates reasonable interface size (15-30 residues typical)
+      [B] (3 points): Combines functions but missing validation or error handling
+      [C] (0 points): Does not integrate or incomplete implementation
 
 ---
 PART 2: INTERFACE DESTABILIZATION SCORING (35 points)
 ---
 
-  Criterion 7: His-Cation Motif Detection Logic (Task 2.1)
+  Criterion 9: His-Cation Motif Detection Logic (Task 2.1)
     Description: Implements interface His-Arg/Lys detection
     Max Points: 12
     Levels:
@@ -72,7 +88,7 @@ PART 2: INTERFACE DESTABILIZATION SCORING (35 points)
       [B] (6 points): Partial implementation - identifies His or cations but not complete pair detection
       [C] (0 points): Does not implement or fundamentally incorrect approach
 
-  Criterion 8: PyRosetta Scoring Pipeline (Task 2.2)
+  Criterion 10: PyRosetta Scoring Pipeline (Task 2.2)
     Description: Implements Rosetta scoring with correct components
     Max Points: 12
     Levels:
@@ -80,7 +96,7 @@ PART 2: INTERFACE DESTABILIZATION SCORING (35 points)
       [B] (6 points): Uses PyRosetta correctly but missing some components (e.g., no FastRelax or incomplete metrics)
       [C] (0 points): Does not use PyRosetta or fundamentally incorrect approach
 
-  Criterion 9: Filtering Pipeline Logic (Task 2.3)
+  Criterion 11: Filtering Pipeline Logic (Task 2.3)
     Description: Combines motif and score filtering correctly
     Max Points: 11
     Levels:
@@ -92,7 +108,7 @@ PART 2: INTERFACE DESTABILIZATION SCORING (35 points)
 PART 3: MONOMER DESTABILIZATION WITH HBNET (30 points)
 ---
 
-  Criterion 10: Core Residue Identification (Task 3.1)
+  Criterion 12: Core Residue Identification (Task 3.1)
     Description: Implements SASA-based core detection
     Max Points: 8
     Levels:
@@ -100,7 +116,7 @@ PART 3: MONOMER DESTABILIZATION WITH HBNET (30 points)
       [B] (4 points): Calculates SASA but wrong normalization or threshold
       [C] (0 points): Does not implement or incorrect approach
 
-  Criterion 11: HBNet Configuration (Task 3.2)
+  Criterion 13: HBNet Configuration (Task 3.2)
     Description: Configures HBNet for His-containing networks
     Max Points: 8
     Levels:
@@ -108,7 +124,7 @@ PART 3: MONOMER DESTABILIZATION WITH HBNET (30 points)
       [B] (4 points): Partial configuration - missing some settings
       [C] (0 points): Does not configure HBNet or fundamentally incorrect
 
-  Criterion 12: Network Scoring (Task 3.3)
+  Criterion 14: Network Scoring (Task 3.3)
     Description: Scores networks based on His H-bond energy
     Max Points: 7
     Levels:
@@ -116,7 +132,7 @@ PART 3: MONOMER DESTABILIZATION WITH HBNET (30 points)
       [B] (3 points): Extracts H-bonds but incorrect energy calculation or threshold
       [C] (0 points): Does not implement scoring
 
-  Criterion 13: Complete Pipeline Integration (Task 3.4)
+  Criterion 15: Complete Pipeline Integration (Task 3.4)
     Description: Combines all steps into working pipeline
     Max Points: 7
     Levels:

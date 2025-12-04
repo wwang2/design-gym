@@ -39,6 +39,48 @@ def create_his_bias_dict(positions, chain="A", his_bias=3.0):
 }
 ```
 
+**Task 1.3**: Interface residue selection implementation:
+```python
+def get_interface_residues(pdb_path, binder_chain="A", target_chain="B", distance_cutoff=8.0):
+    parser = PDBParser(QUIET=True)
+    structure = parser.get_structure("complex", pdb_path)
+    model = structure[0]
+    
+    # Build neighbor search from target atoms
+    target_atoms = [atom for atom in model[target_chain].get_atoms()]
+    ns = NeighborSearch(target_atoms)
+    
+    interface_residues = []
+    for residue in model[binder_chain].get_residues():
+        if residue.id[0] != ' ':  # Skip hetero atoms
+            continue
+        for atom in residue.get_atoms():
+            if len(ns.search(atom.coord, distance_cutoff)) > 0:
+                interface_residues.append(residue.id[1])
+                break
+    
+    return interface_residues
+
+# Typical interface: 15-30 residues for ~100 residue binder
+```
+
+**Task 1.4**: Complete workflow combines interface selection with His bias:
+```python
+def create_interface_his_bias(pdb_path, binder_chain="A", target_chain="B", 
+                               distance_cutoff=8.0, his_bias=3.0):
+    # Step 1: Get interface residues
+    interface_positions = get_interface_residues(pdb_path, binder_chain, target_chain, distance_cutoff)
+    
+    # Step 2: Create His bias dictionary
+    bias_dict = create_his_bias_dict(interface_positions, chain=binder_chain, his_bias=his_bias)
+    
+    # Step 3: Validate interface size (typical: 15-30 residues)
+    if len(interface_positions) < 5 or len(interface_positions) > 50:
+        print("WARNING: Unusual interface size")
+    
+    return interface_positions, bias_dict
+```
+
 ---
 
 ## Part 2: Interface Destabilization Scoring (Strategy A)
