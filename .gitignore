@@ -40,3 +40,6 @@ tmp/
 
 # Environment variables
 .env
+
+# Evaluation examples (excluded from PRs)
+context/eval_examples/
