@@ -8,9 +8,9 @@ Criteria (10):
     Description: Evaluates the correct identification of buried residues in the scaffold structure suitable for pH sensing.
     Max Points: 10
     Levels:
-      [A] (10 points): Correctly identifies buried core residues by: (1) Calculating Solvent Accessible Surface Area (SASA) using a standard tool (BioPython, FreeSASA, PyRosetta), (2) Using a relative SASA threshold < 0.25 (or absolute threshold appropriate for burial), (3) Normalizing SASA by residue-specific maximum values, (4) Excluding surface-exposed residues from consideration, and (5) Returning a plausible list of buried core residues suitable for installing pH-sensing networks.
+      [A] (10 points): Correctly identifies buried core residues by calculating Solvent Accessible Surface Area (SASA) using a standard tool (BioPython, FreeSASA, PyRosetta) and using a relative SASA threshold < 0.25 times the maximum value for selecting a list of buried positions.
 
-      [B] (5 points): Identifies residues but: (1) Uses an unreasonable threshold (too strict > 0.1 or too loose > 0.4), (2) Fails to normalize SASA correctly (uses absolute values without normalization), OR (3) Includes some surface residues in core selection.
+      [B] (5 points): Identifies buried residues but uses an unreasonable threshold (too strict > 0.1 or too loose > 0.4), fails to normalize SASA correctly by using absolute values without normalization, or includes some surface residues in core selection.
 
       [C] (0 points): Fails to calculate SASA, identifies surface residues as core, or does not address core residue identification.
 
@@ -18,19 +18,19 @@ Criteria (10):
     Description: Evaluates correct configuration to search for His-containing hydrogen bond networks. Pyrosetta HBNet is the preferred method; alternative methods receive partial credit when Pyrosetta is unavailable.
     Max Points: 15
     Levels:
-      [A] (15 points): Correctly configures PyRosetta HBNet by: (1) Attempting to use PyRosetta HBNet first, (2) Setting up PyRosetta pose from scaffold PDB structure, (3) Configuring HBNet mover to search within core positions (using ResidueIndexSelector or similar), (4) Restricting amino acid types to H, R, K (histidine, arginine, lysine) for network formation, (5) Specifying network types to search: His-His, His-Arg, His-Lys pairs/networks, (6) Setting minimum network size appropriately (e.g., 2 residues), and (7) Ensuring only buried positions are targeted.
+      [A] (15 points): Correctly configures PyRosetta HBNet by setting up PyRosetta pose from scaffold PDB structure, configuring HBNet mover to search within core positions (using ResidueIndexSelector or similar), restricting amino acid types to H, R, K (histidine, arginine, lysine) for network formation, and specifying network types to search (His-His, His-Arg, His-Lys pairs/networks).
 
-      [B] (7 points): Uses alternative method when Pyrosetta HBNet is unavailable by: (1) Demonstrating attempt to use Pyrosetta HBNet (e.g., try/except or checking availability), (2) Implementing an alternative method that searches for His-containing networks (His-His, His-Arg, His-Lys) within core residues, (3) Using appropriate geometric criteria (e.g., distance and angle constraints for H-bond formation), (4) Restricting to buried positions, and (5) Demonstrating understanding of HBNet's purpose (finding stable H-bond networks). OR configures PyRosetta HBNet but with minor errors: (1) Fails to restrict to core positions (searches entire structure), (2) Allows incorrect amino acid types (not just H/R/K), (3) Does not specify His-containing network types, OR (4) Uses incorrect settings that prevent finding appropriate networks.
+      [B] (7 points): Uses alternative method when Pyrosetta HBNet is unavailable by demonstrating attempt to use Pyrosetta HBNet (e.g., try/except or checking availability), then implementing a method that searches for His-containing networks (His-His, His-Arg, His-Lys) within core residues using appropriate geometric criteria (e.g., distance and angle constraints for H-bond formation) and restricting to buried positions. OR configures PyRosetta HBNet but fails to restrict to core positions, allows incorrect amino acid types (not just H/R/K), or does not specify His-containing network types.
 
-      [C] (0 points): Fails to configure network search, uses alternative method without attempting Pyrosetta first, uses completely wrong approach, or does not address network discovery configuration.
+      [C] (0 points): Fails to configure network search, uses alternative method without attempting Pyrosetta first, uses completely wrong approach, or does not address His-cationic network type correctly.
 
   Criterion 3: Network Discovery Execution
     Description: Evaluates correct execution to discover His-containing hydrogen bond networks. Pyrosetta HBNet is the preferred method; alternative methods receive partial credit when Pyrosetta is unavailable.
     Max Points: 12
     Levels:
-      [A] (12 points): Correctly executes PyRosetta HBNet by: (1) Applying HBNet mover to the pose containing the scaffold structure, (2) Extracting discovered networks from HBNet output, (3) Identifying network types correctly (His-His, His-Arg, His-Lys), (4) Recording residue positions involved in each network, (5) Ensuring networks are located in the core (buried positions), and (6) Handling cases where multiple networks are discovered.
+      [A] (12 points): Correctly executes PyRosetta HBNet by applying HBNet mover to the pose containing the scaffold structure, extracting discovered networks from HBNet output, identifying network types correctly (His-His, His-Arg, His-Lys), and recording residue positions involved in each network with verification that networks are located in the core (buried positions).
 
-      [B] (6 points): Uses alternative method when Pyrosetta HBNet is unavailable by: (1) Demonstrating attempt to use Pyrosetta HBNet first, (2) Implementing a method that identifies His-containing H-bond networks (His-His, His-Arg, His-Lys) within core residues, (3) Using geometric analysis (distances, angles) to detect potential H-bonds, (4) Correctly identifying network types and residue positions, (5) Verifying networks are in buried positions, and (6) Handling multiple network scenarios. OR executes PyRosetta HBNet but with errors: (1) Fails to extract network information correctly, (2) Does not verify networks are in core positions, (3) Misses some network types, OR (4) Does not handle multiple network scenarios appropriately.
+      [B] (6 points): Uses alternative method when Pyrosetta HBNet is unavailable by demonstrating attempt to use Pyrosetta HBNet first, then implementing a method that identifies His-containing H-bond networks (His-His, His-Arg, His-Lys) within core residues using geometric analysis (distances, angles) to detect potential H-bonds and correctly identifying network types and residue positions. OR executes PyRosetta HBNet but fails to extract network information correctly or does not verify networks are in core positions.
 
       [C] (0 points): Fails to discover networks, uses alternative method without attempting Pyrosetta first, uses completely wrong method, or does not address network discovery.
 
@@ -38,9 +38,9 @@ Criteria (10):
     Description: Evaluates correct filtering of networks based on primary histidine hydrogen bond energy. PyRosetta HBondSet is the preferred method; alternative methods receive partial credit when Pyrosetta is unavailable.
     Max Points: 15
     Levels:
-      [A] (15 points): Correctly filters networks using PyRosetta HBondSet by: (1) Attempting to use PyRosetta HBondSet first, (2) Extracting hydrogen bond energies using PyRosetta HBondSet, (3) Identifying primary histidine H-bonds in each network (H-bonds involving His ND1/NE2 atoms), (4) Calculating primary histidine H-bond energy (sum or average of His H-bond energies in the network), (5) Applying energy threshold filter (< -0.5 kcal/mol), (6) Selecting only networks that meet the energy criterion, and (7) Reporting the energy values for selected networks.
+      [A] (15 points): Correctly filters networks using PyRosetta HBondSet by extracting hydrogen bond energies, identifying primary histidine H-bonds in each network (H-bonds involving His ND1/NE2 atoms), calculating primary histidine H-bond energy (sum or average of His H-bond energies in the network), and applying energy threshold filter (< -0.5 kcal/mol) to select only networks that meet the energy criterion.
 
-      [B] (7 points): Uses alternative method when Pyrosetta is unavailable by: (1) Demonstrating attempt to use Pyrosetta HBondSet (e.g., try/except or checking availability), (2) Estimating H-bond strengths using geometric criteria (distances, angles) that correlate with H-bond energy, (3) Identifying primary histidine H-bonds (involving His ND1/NE2 atoms), (4) Applying equivalent filtering criteria based on geometric quality, (5) Demonstrating understanding that stronger H-bonds have better geometry (e.g., distance < 3.5 Å, appropriate angles), and (6) Selecting networks with strong H-bond geometry. OR uses PyRosetta but with errors: (1) Uses incorrect energy/threshold criteria (wrong sign or magnitude), (2) Measures wrong types of H-bonds (not primary His H-bonds), (3) Fails to extract energies correctly from structure, OR (4) Does not apply threshold consistently.
+      [B] (7 points): Uses alternative method when Pyrosetta is unavailable by demonstrating attempt to use Pyrosetta HBondSet (e.g., try/except or checking availability), then estimating H-bond strengths using geometric criteria (distances, angles) that correlate with H-bond energy, identifying primary histidine H-bonds (involving His ND1/NE2 atoms), and applying equivalent filtering criteria based on geometric quality (e.g., distance < 3.5 Å for strong H-bonds). OR uses PyRosetta but uses incorrect energy/threshold criteria (wrong sign or magnitude) or measures wrong types of H-bonds (not primary His H-bonds).
 
       [C] (0 points): Fails to filter by H-bond energy/geometry, uses alternative method without attempting Pyrosetta first, uses completely wrong metric, or does not address energy-based filtering.
 
@@ -48,9 +48,9 @@ Criteria (10):
     Description: Evaluates selection of the best network and justification for pH-sensitivity.
     Max Points: 5
     Levels:
-      [A] (5 points): Correctly selects network by: (1) Choosing a network that passes the energy filter (< -0.5 kcal/mol), (2) Selecting a network type appropriate for pH sensitivity (His-His, His-Arg, or His-Lys), (3) Justifying selection based on energy strength and network stability, (4) Explaining why the selected network will be destabilized at low pH (His protonation disrupts H-bonds), and (5) Identifying all residue positions in the selected network.
+      [A] (5 points): Correctly selects network by choosing a network that passes the energy filter (< -0.5 kcal/mol), selecting a network type appropriate for pH sensitivity (His-His, His-Arg, or His-Lys), and identifying all residue positions in the selected network with explanation of why the network will be destabilized at low pH (His protonation disrupts H-bonds).
 
-      [B] (2 points): Selects network but: (1) Does not justify selection clearly, (2) Chooses network type with energy not passing the criteria, OR (3) Fails to explain the mechanism of pH-dependent destabilization.
+      [B] (2 points): Selects network but does not justify selection clearly, chooses network type with energy not passing the criteria, or fails to explain the mechanism of pH-dependent destabilization.
 
       [C] (0 points): Fails to select a network, chooses inappropriate network, or does not address network selection.
 
@@ -58,19 +58,19 @@ Criteria (10):
     Description: Evaluates redesign of environmental residues around the network using ProteinMPNN.
     Max Points: 15
     Levels:
-      [A] (15 points): Correctly performs sequence design by: (1) Using ProteinMPNN (or equivalent inverse folding tool) to redesign sequences, (2) Fixing the identity of network residues (forcing His, Arg, or Lys at network positions using amino acid bias), (3) Allowing surrounding environmental residues to mutate to repack the core and accommodate the new network, (4) Generating multiple sequence candidates (at least 5-20 sequences), (5) Providing the scaffold structure as input for context-aware design, and (6) Ensuring all designed sequences maintain the network residue identities.
+      [A] (15 points): Correctly performs sequence design by using ProteinMPNN (or equivalent inverse folding tool) to redesign sequences with scaffold structure as input, fixing the identity of network residues (forcing His, Arg, or Lys at network positions using amino acid bias), allowing surrounding environmental residues to mutate to repack the core, and generating multiple sequence candidates (at least 5-20 sequences) while ensuring all designed sequences maintain the network residue identities.
 
-      [B] (7 points): Designs sequences but: (1) Fails to fix network residues (allowing them to mutate away), (2) Does not allow sufficient flexibility in environmental residues, (3) Generates only a single sequence without sampling, OR (4) Does not use structure context in design.
+      [B] (7 points): Does not allow sufficient flexibility in environmental residues, generates only a single sequence without sampling, or does not use structure context in design.
 
-      [C] (0 points): Fails to perform sequence design, manually mutates only network residues without repacking, or does not address sequence design.
+      [C] (0 points): Fails to perform sequence design, manually mutates only network residues without repacking, or designs sequences but fails to fix network residues (allowing them to mutate away)
 
   Criterion 7: Structure Prediction
     Description: Evaluates validation of designed sequences using structure prediction.
     Max Points: 10
     Levels:
-      [A] (10 points): Correctly validates designs by: (1) Using a high-accuracy structure prediction tool (ESMFold, AlphaFold2, Boltz-2, Chai-1), (2) Predicting 3D structures for designed sequences, (3) Predicting structures for multiple design candidates (at least 3-5 sequences), (4) Saving predicted structures in standard format (PDB), and (5) Extracting confidence metrics (pLDDT scores) from predictions.
+      [A] (10 points): Correctly validates designs by using a high-accuracy structure prediction tool (ESMFold, AlphaFold2, Boltz-2, Chai-1) for multiple design candidates (at least 3-5 sequences).
 
-      [B] (5 points): Validates but: (1) Uses low-accuracy prediction method, (2) Predicts only single structure, (3) Fails to extract confidence metrics, OR (4) Does not save structures properly.
+      [B] (5 points): Validates but uses wrong prediction method, predicts only single structure without rationale, fails to extract confidence metrics.
 
       [C] (0 points): Fails to perform structure prediction, uses completely wrong method, or does not address structural validation.
 
@@ -78,9 +78,9 @@ Criteria (10):
     Description: Evaluates filtering of predicted structures based on confidence metrics.
     Max Points: 4
     Levels:
-      [A] (4 points): Correctly filters predictions by: (1) Calculating mean pLDDT scores for each predicted structure, (2) Applying appropriate confidence threshold (e.g., mean pLDDT > 70 or > 80), (3) Selecting only high-confidence predictions for further analysis, (4) Reporting pLDDT values for all predictions, and (5) Understanding that high pLDDT indicates reliable structure prediction.
+      [A] (4 points): Correctly filters predictions by calculating mean pLDDT scores for each predicted structure, applying appropriate confidence threshold (e.g., mean pLDDT > 70 or > 80) selecting only high-confidence predictions for further analysis.
 
-      [B] (2 points): Filters but: (1) Uses unreasonable threshold (too strict or too loose), (2) Fails to calculate mean pLDDT correctly, OR (3) Does not apply threshold consistently.
+      [B] (2 points): Filters but uses unreasonable threshold (e.g. too loose like pLDDT > 0.2, or wrong direction, like pLDDT< 0.8), or missed RMSD calculation.
 
       [C] (0 points): Fails to filter by confidence metrics, uses completely wrong metric, or does not address confidence-based filtering.
 
@@ -88,9 +88,9 @@ Criteria (10):
     Description: Evaluates verification that the designed network is actually formed in predicted structures.
     Max Points: 10
     Levels:
-      [A] (10 points): Correctly verifies network geometry by: (1) Loading predicted structure PDB files, (2) Identifying network residue positions in predicted structure, (3) Measuring distances between network residues (e.g., His ND1/NE2 to partner atoms), (4) Checking that H-bond distances are within acceptable range (< 3.5 Å for strong H-bonds), (5) Verifying that network geometry matches design intent, and (6) Confirming network is formed in high-confidence predictions.
+      [A] (10 points): Correctly verifies network geometry by loading predicted structure PDB files, identifying network residue positions in predicted structure, measuring distances between network residues (e.g., His ND1/NE2 to partner atoms), and checking that H-bond distances are within acceptable range (< 3.5 Å for strong H-bonds) in high-confidence predictions.
 
-      [B] (5 points): Verifies geometry but: (1) Uses incorrect atoms for distance measurement, (2) Accepts poor geometry (e.g., > 5 Å), (3) Only checks sequence presence, not 3D geometry, OR (4) Does not verify in predicted structures (only checks input).
+      [B] (5 points): Verifies geometry but uses incorrect atoms for distance measurement, accepts poor geometry (e.g., > 5 Å), only checks sequence presence and not 3D geometry, or does not verify in predicted structures (only checks input).
 
       [C] (0 points): Fails to verify network geometry, does not check if network is formed, or does not address geometric validation.
 
@@ -98,9 +98,8 @@ Criteria (10):
     Description: Evaluates complete workflow execution and understanding of pH-sensitive mechanism.
     Max Points: 4
     Levels:
-      [A] (4 points): Demonstrates complete understanding by: (1) Executing all workflow steps in correct order (core identification → HBNet → filtering → design → prediction → validation), (2) Explaining the pH-sensitive mechanism: buried His pKa shift, H-bond disruption upon protonation at low pH (~6.0), core destabilization leading to unfolding, (3) Connecting the workflow to the biological goal (monomer destabilization for pH-sensitive switch), (4) Providing clear documentation of results (selected network, designed sequences, predicted structures, validation metrics), and (5) Demonstrating that the workflow produces functional pH-sensitive designs.
+      [A] (4 points): Demonstrates complete understanding by executing all workflow steps in correct order (core identification → HBNet → filtering → design → prediction → validation), explaining the pH-sensitive mechanism (buried His pKa shift, H-bond disruption upon protonation at low pH ~6.0, core destabilization leading to unfolding), and providing clear documentation of results (selected network, designed sequences, predicted structures, validation metrics).
 
-      [B] (2 points): Completes workflow but: (1) Missing some integration between steps, (2) Provides generic explanation without specific mechanism details, OR (3) Does not connect design to biological function clearly.
+      [B] (2 points): Completes workflow but is missing some integration between steps, provides generic explanation without specific mechanism details, or does not connect design to biological function clearly.
 
       [C] (0 points): Fails to integrate workflow steps, provides incorrect biological interpretation, or does not demonstrate understanding of pH-sensitive mechanism.
-
