@@ -396,11 +396,12 @@ class AgentTools:
 # Agent Loop
 # =============================================================================
 
-def run_agent(task_name: str, max_iterations: int = 20, model: str = "gpt-4o"):
+def run_agent(task_name: str, max_iterations: int = 20, model: str = "gpt-4o", output_name: str = None):
     """Run the agent on a task."""
     tasks_dir = Path(__file__).parent
     task_dir = tasks_dir / task_name
-    output_dir = task_dir / "agent_output" / datetime.now().strftime("%Y%m%d_%H%M%S")
+    name = output_name or datetime.now().strftime("%Y%m%d_%H%M%S")
+    output_dir = task_dir / "agent_output" / name
     
     if not task_dir.exists():
         print(f"Error: Task directory not found: {task_dir}")
@@ -534,11 +535,12 @@ Be methodical, save intermediate results, and try alternatives if something fail
 def main():
     parser = argparse.ArgumentParser(description="Task-Agnostic AI Agent for Computational Biology")
     parser.add_argument("--task", required=True, help="Task directory name")
-    parser.add_argument("--max-iterations", type=int, default=20, help="Maximum iterations (default: 20)")
+    parser.add_argument("--output", help="Output directory name (default: timestamp)")
+    parser.add_argument("--max-iterations", type=int, default=100, help="Maximum iterations (default: 20)")
     parser.add_argument("--model", default="gpt-4o", help="OpenAI model (default: gpt-4o)")
     
     args = parser.parse_args()
-    run_agent(args.task, args.max_iterations, args.model)
+    run_agent(args.task, args.max_iterations, args.model, args.output)
 
 
 if __name__ == "__main__":
