@@ -4,23 +4,23 @@
 
 Engineer a pH-sensitive "switch" into a stable protein scaffold. The goal is to introduce a buried Histidine-mediated hydrogen bond network that is stable at neutral pH (7.4) but becomes destabilizing at acidic pH (~6.0), triggering a conformational change or unfolding.
 
-Using the provided scaffold `data/scaffold.pdb` (a de novo designed NTF2 fold, PDB ID 5L33), develop a computational workflow to:
+Using the provided scaffold `data/scaffold.pdb` (a de novo designed NTF2 fold, PDB ID 5L33), develop a computational workflow that:
 
-1. **Identify Core Residues**: Find buried residues suitable for installing pH-sensing networks.
-2. **Select Network Positions**: Identify residue pairs/triplets that can form His-mediated hydrogen bond networks.
-3. **Sequence Design**: Install histidines and redesign surrounding sequence to stabilize the neutral-pH state.
-4. **Validation**: Predict structures and verify the network is formed correctly.
+1. **Identifies buried core residues** suitable for installing pH-sensing networks
+2. **Discovers positions** where His-containing hydrogen bond networks can be installed
+3. **Designs sequences** with the network installed and surrounding residues repacked
+4. **Validates designs** through structure prediction, confirming the network forms correctly
 
-## Deliverables
+## Success Criteria
 
-Save to output directory:
-- `core.json`: Identified buried residues with properties
-- `network.json`: Selected network positions with geometric data  
-- `designs.json`: Designed sequences
-- `predictions.json`: Validation metrics
+A successful solution will:
+- Produce designed sequences containing buried His networks
+- Demonstrate high-confidence structure predictions (pLDDT > 70)
+- Show geometric evidence that the His network is formed in predicted structures
+- Explain why the design would function as a pH sensor
 
 ## Background
 
 - Histidine's pKa (~6.0) makes it ideal for physiological pH sensing
 - Buried residues experience pKa shifts that enable pH sensing
-- Structure prediction confidence indicates design quality
+- At low pH, His protonation disrupts hydrogen bonds, destabilizing the core
